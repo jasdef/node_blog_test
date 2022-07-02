@@ -1,7 +1,6 @@
 const handleBlogRouter = (req, res)=> {
     const method = req.method;
-    const url = req.url;
-    const path = url.split('?')[0]
+    const path = req.path
 
     if (method === 'GET' && path === '/api/blog/list') {
         return {msg : "獲取blog列表API"}
@@ -9,6 +8,10 @@ const handleBlogRouter = (req, res)=> {
 
     if (method === 'GET' && path === '/api/blog/detail') {
         return {msg : "獲取blog詳情API"}
+    }
+
+    if (method === 'POST' && path === '/api/blog/update') {
+        return {msg : "更新blog API"}
     }
 
     if (method === 'POST' && path === '/api/blog/new') {

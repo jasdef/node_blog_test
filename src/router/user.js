@@ -1,7 +1,6 @@
 const handleUserRouter = (req, res) => {
-    const method = req.method;
-    const url = req.url;
-    const path = url.split('?')[0]
+    const method = req.method;    
+    const path = req.path
 
     if (method === 'POST' && path === '/api/user/login') {
         return {msg : "login api"}
