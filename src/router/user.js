@@ -32,7 +32,9 @@ const handleUserRouter = (req, res) => {
         return result.then(data => { 
             if (data.username) { 
 
-                res.setHeader('Set-Cookie', `username=${data.username}; path=/; httpOnly; expires=${getCookieExpries()}`)
+                req.session.username = data.username
+                req.session.realname = data.realname
+                console.log('req session is ', req.session)
                 return new SuccessModel()
             }
 
@@ -43,8 +45,8 @@ const handleUserRouter = (req, res) => {
 
 
     if (method === 'GET' && req.path === '/api/user/login-test') { 
-        if (req.cookie.username) {
-            return Promise.resolve(new SuccessModel({username:req.cookie.username}))
+        if (req.session.username) {
+            return Promise.resolve(new SuccessModel({session:req.session}))
         }
 
         return Promise.resolve(new ErrorModel('not login'))
