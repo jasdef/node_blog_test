@@ -8,39 +8,66 @@ const handleBlogRouter = (req, res) => {
     if (method === 'GET' && path === '/api/blog/list') {
         const author = req.query.author || ''
         const keyword = req.query.keyword || ''
-        const listData = getList(author, keyword)
-        return new SuccessModel(listData)
+        // const listData = getList(author, keyword)
+        // return new SuccessModel(listData)
+        const result = getList(author, keyword)
+        return result.then(listData => { 
+            return new SuccessModel(listData)
+        })
+
     }
 
     if (method === 'GET' && path === '/api/blog/detail') {
-        const data = getDetail(id)
+        // const data = getDetail(id)
 
-        return new SuccessModel(data)
+        // return new SuccessModel(data)
+
+        const result = getDetail(id)
+
+        return result.then(data => { 
+            return new SuccessModel(data)
+        })
     }
 
     if (method === 'POST' && path === '/api/blog/update') {
         const result = updateBlog(id, req.body)
-        if (result) {
-            return new SuccessModel()
+        return result.then(val => { 
+            if (val) {
+                return new SuccessModel()
 
-        } else { 
-            return new ErrorModel('update blog fail');
-        }
+            } else { 
+                return new ErrorModel('update blog fail');
+            }
+        })
+
+
     }
 
     if (method === 'POST' && path === '/api/blog/new') {
-        const data = newBlog(req.body)
-        return  new SuccessModel(data)
+        // const data = newBlog(req.body)
+        // return  new SuccessModel(data)
+ 
+        req.body.author = 'bella'
+        const result = newBlog(req.body)
+        return result.then(data => { 
+            return new SuccessModel(data)
+        })
     }
 
     if (method === 'POST' && path === '/api/blog/del') {
-        const result = delBlog(id)
-        if (result) {
-            return new SuccessModel()
+         const author = 'bella'
+        const result = delBlog(id, author)
 
-        } else { 
-            return new ErrorModel('del blog fail');
-        }
+        return result.then(val => { 
+            if (val) {
+                return new SuccessModel()
+
+            } else { 
+                return new ErrorModel('delete blog fail');
+            }
+        })
+
+      
     }
 }
 
